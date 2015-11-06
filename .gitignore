@@ -30,3 +30,6 @@ bower_components/
 
 
 .idea/
+
+*.sublime-project
+*.sublime-workspace
