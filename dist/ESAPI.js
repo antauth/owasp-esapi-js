@@ -1,5 +1,5 @@
 /*! ESAPI-JS - v0.1.3
- *  Release on: 2015-06-08
+ *  Release on: 2015-11-06
  *  https://www.owasp.org/index.php/Category:OWASP_Enterprise_Security_API
  *  Copyright (c) 2015 OWASP
  *  Licensed BSD */
@@ -1908,7 +1908,7 @@ org.owasp.esapi.reference.encoding.DefaultEncoder = function(aCodecs) {
             while (!clean) {
                 clean = true;
 
-                _codecs.each(function(codec) {
+                _codecs.forEach(function(codec, index, array) {
                     var old = working;
                     working = codec.decode(working);
 
@@ -2124,7 +2124,7 @@ org.owasp.esapi.reference.logging.Log4JSLogFactory = function() {
                     logger.setEncodingFunction( logConfig.EncodingFunction );
                 }
 
-                logConfig.Appenders.each(function(e){
+                logConfig.Appenders.forEach(function(e, index, array){
                     if ( logConfig.Layout ) {
                         e.setLayout( logConfig.Layout );
                     }
@@ -2595,11 +2595,12 @@ org.owasp.esapi.reference.validation.IntegerValidationRule = function( sTypeName
             }
             _super.validationException( sContext, _validationTarget, "Required", { "context":sContext, "input":sInput, "minValue":minValue, "maxValue":maxValue } );
         }
-
+        
         var canonical = _super.getEncoder().cananicalize(sInput);
 
-        var n = parseInt(canonical);
-        if ( n == 'NaN' ) {
+        var n = parseInt(canonical); 
+        
+        if ( n !== n ) { // NaN check
             _super.validationException( sContext, _validationTarget, "NaN", { "context":sContext, "input":sInput, "minValue":minValue, "maxValue":maxValue } );
         }
         if ( n < minValue ) {
